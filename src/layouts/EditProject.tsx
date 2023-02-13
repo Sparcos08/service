@@ -9,17 +9,17 @@ import axios from '../api/axios';
 
 
 export const EditProject = () => {
-  console.log("heyzzzz")
   const navigate = useNavigate();
   const auth = useAuthContext(); 
   let {id , title : paramTitle, description : paramDescription, status : paramStatus, role: paramRole} = useParams()
-  console.log(id , paramTitle , paramDescription)
-  const [title, setTitle] = React.useState(paramTitle )
+  const [title, setTitle] = React.useState(paramTitle)
   const [description, setDescription] = React.useState(paramDescription)
   const [status, setStatus] = React.useState(paramStatus)
   const [role, setRole] = React.useState(paramRole)
+  const [admins , setAdmins] = React.useState([{name :'farhat' , role : "admin" , id : "1"} , {name :'aziyaz' , role : "admin" , id : "2"}])
   const [memebers , setMembers] = React.useState([])
   const [update , setUpdate] = React.useState(false)
+  const [viewers , setViewers] = React.useState([{name :'jilani' , role : "viewer" , id : "3"} , {name :'tijani' , role : "viewer" , id : "4"}])
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,7 +41,7 @@ export const EditProject = () => {
 
     } 
     if(status=="2"){
-      setStatus("finished")
+      setStatus("closed")
 
     }
     if(status=="0"){
@@ -58,7 +58,6 @@ export const EditProject = () => {
                     "Authorization": `Bearer ${auth?.user?.access}`,
       },
       
-      
 
 
       
@@ -66,8 +65,8 @@ export const EditProject = () => {
       }
     ).then((response) => {
       // TODO: remove console.logs before deployment
-      
-      navigate("/activeProjects", { replace: true })
+   
+      //navigate("/", { replace: true })
 
   
 
@@ -80,7 +79,7 @@ export const EditProject = () => {
     }
   }) ;
 
-
+ 
   }
   const handleUpdateProject = () => {
     axios.post("http://127.0.0.1:8000/projects/project-update/"+id+"/", {title:title,description:description},
@@ -147,7 +146,7 @@ export const EditProject = () => {
      }
    }) ;
 
- },[,update])
+ })//,[,update]
 
   React.useEffect(() => {
    // fetchEmployees()
@@ -156,9 +155,6 @@ export const EditProject = () => {
     // const customersNames = axios.get(endpointsURL.supplierCompanyNames).then(response => response.data );
     // Promise.all([supliersNames, customersNames]).then((values) =>  setCompanyNames([...values[0].concat(values[1])]))
   }, [ open])
-
- 
-
 
   return (
     <Grid container padding={5}  
@@ -220,8 +216,7 @@ export const EditProject = () => {
                   <>
                       <div>PROJECT MEMBERS</div>
                       <br />
-                      <PrivilegeTable handleUpdate={handleUpdate} setUpdate={setUpdate}  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} role={role} data={[...memebers]} />
-                                    
+                      <PrivilegeTable setMembers={setMembers} handleUpdate={handleUpdate} setUpdate={setUpdate}  disable={role==="viewer"} id={id} status={paramStatus} description={description} title={title} role={role} data={[...memebers]} />  
                   </>
                 :""
             

@@ -13,13 +13,13 @@ import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { Link, useNavigate , useParams} from 'react-router-dom';
 export const ManageDialog = ({
-    id,
-    handleClickOpen,
+    id, 
     handleClose,
     open,
     description,
     status,
-    title
+    title,role,
+    setUpdate
 }: {
     id: any,
     handleClickOpen: () => void,
@@ -68,11 +68,9 @@ export const ManageDialog = ({
         if(response.status === 200){
 
             handleClose()
-            // // setUpdate(true)
-            navigate(`edit/${id}/${title}/${description}/${status}`)
         }
 
-        navigate("/", { replace: true })
+        //navigate(`/`, { replace: true })
 
     });
     }
@@ -117,7 +115,7 @@ export const ManageDialog = ({
                             {admins?.map((admin) => {
                                 return (
                                     <MenuItem key={admin[0]} value={admin[0]}>
-                                        {admin[1][0].username}
+                                        {admin[1][0].email}
                                     </MenuItem>
                                 );
                             })

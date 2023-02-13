@@ -13,8 +13,9 @@ import { Link, useNavigate , useParams} from 'react-router-dom';
 
 export const  PrivilegeTable =({data , disable,
 id, description,
-status,
-title
+status,role,
+title,setUpdate,
+handleUpdate
 })=> {
 
 
@@ -23,8 +24,8 @@ title
   const auth = useAuthContext();
 
   
-    const deleteUser = async (id) => {
-      await axios.delete("http://127.0.0.1:8000/projects/project-members-delete/"+id+"/", 
+    const deleteUser = async (id_user) => {
+      await axios.delete("http://127.0.0.1:8000/projects/project-members-delete/"+id_user+"/", 
       {
         headers: { 'Content-Type': 'application/json',
                       "Authorization": `Bearer ${auth?.user?.access}`,
@@ -37,7 +38,13 @@ title
       }
     ).then((response) => {
       // TODO: remove console.logs before deployment
-      navigate(`edit/${id}/${title}/${description}/${status}`)
+      //navigate(`/activeProjects/edit/${id}/${response.data.title}/${response.data.description}/${response.data.status}/admin`, { replace: true })
+      navigate("/activeProjects", { replace: true })
+      handleUpdate() 
+      
+      
+      
+      
 
     
 
@@ -56,7 +63,7 @@ title
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">name</TableCell>
+            <TableCell align="left">email</TableCell>
             <TableCell align="left">permission</TableCell>
             <TableCell align="left">delete member</TableCell>
           </TableRow>
@@ -68,7 +75,7 @@ title
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="left" component="th" scope="row">
-                {row[1]}
+                {row[3]}
               </TableCell>
               <TableCell align="left">{row[2] }</TableCell>
               <TableCell align="left" ><Button color="error" disabled={disable} variant="contained" onClick={()=>deleteUser(row[0])}>delete</Button></TableCell>

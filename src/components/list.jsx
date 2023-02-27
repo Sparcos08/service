@@ -123,7 +123,6 @@ export  default function  List({allData , user_type}) {
             >update Profile</Button>
             
           </Box>
-         
         </Box>
       </Container>
     </ThemeProvider>
